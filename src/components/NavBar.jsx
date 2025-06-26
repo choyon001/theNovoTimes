@@ -14,7 +14,7 @@ const NavBar = () => {
             <div>
                 <div className="flex  justify-center items-center space-x-2">
                     <img src={userProfile} alt="" srcset="" />
-                    <button className="bg-[#403F3F] text-white p-2 rounded-lg">Login</button>
+                    <Link to="/auth/login" className="bg-[#403F3F] text-white p-2 rounded-lg">Login</Link>
                 </div>
             </div>
         </div>
