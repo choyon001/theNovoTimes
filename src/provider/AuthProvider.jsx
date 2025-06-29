@@ -1,31 +1,51 @@
 import { createContext, useEffect, useState } from "react";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import app from "../firebase/firebase.config";
 export const AuthContext = createContext();
 const auth = getAuth(app);
-const AuthProvider = ({children}) => {
-    const [user,setUser] = useState(null);
-    const createNewUser = (email,password)=>{
-        return createUserWithEmailAndPassword(auth, email, password);
-    }
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading,setLoading] = useState(true);
+  const createNewUser = (email, password) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
-    useEffect(()=>{
-        const unsubscribe =  onAuthStateChanged(auth,(currentUser)=>{
-            setUser(currentUser);
-            console.log("Current User",currentUser);
-        })
-        return ()=>{
-            unsubscribe();
-        }
-    },[])
-    const authInfo = {
-        user,
-        setUser,
-        createNewUser,
-    }
-    return (
-        <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-    );
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+      console.log("Current User", currentUser);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
+  const signInUser = (email, password) => {
+    setLoading(true);
+    return  signInWithEmailAndPassword(auth, email, password);
+  };
+  const authInfo = {
+    user,
+    setUser,
+    createNewUser,
+    logOut,
+    signInUser,
+    loading
+  };
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

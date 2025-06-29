@@ -4,7 +4,6 @@ import NewsCategoryCard from './../NewsCategoryCard';
 
 const NewsCategory = () => {
     const {data:news} = useLoaderData();
-    console.log(news);
     return (
         <div>
             <h1 className='font-semibold'>Novo News Home </h1>

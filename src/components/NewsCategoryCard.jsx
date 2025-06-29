@@ -1,6 +1,7 @@
 
 import { FaRegEye } from 'react-icons/fa';
 import { FaStar } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 const NewsCategoryCard = ({ singleNews }) => {
   const {
@@ -10,6 +11,7 @@ const NewsCategoryCard = ({ singleNews }) => {
     details,
     rating,
     total_view,
+    _id
   } = singleNews;
 
   return (
@@ -42,7 +44,7 @@ const NewsCategoryCard = ({ singleNews }) => {
         {details.length > 200
           ? `${details.slice(0, 200)}...`
           : details}
-        <span className="text-blue-500 font-medium cursor-pointer"> Read More</span>
+        <Link to={`/news/${_id}`} className="text-blue-500 font-medium cursor-pointer"> Read More</Link>
       </div>
 
       {/* Footer: Ratings and Views */}
