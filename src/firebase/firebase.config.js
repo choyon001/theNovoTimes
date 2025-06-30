@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBDu9veNXo0FjnIGdaIi8rkcn69Tqz_-ZU",
-  authDomain: "thenovotimes.firebaseapp.com",
-  projectId: "thenovotimes",
-  storageBucket: "thenovotimes.firebasestorage.app",
-  messagingSenderId: "549584166015",
-  appId: "1:549584166015:web:8285022f523ffacf61734a"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase

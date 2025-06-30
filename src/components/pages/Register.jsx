@@ -40,7 +40,7 @@ const Register = () => {
           console.log("Error updating user profile:", err.message);
         })
         console.log(user);
-      })
+      }) 
       .catch((error) => {
         console.log(error.message);
       });
