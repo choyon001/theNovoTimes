@@ -1,22 +1,44 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 const Register = () => {
-  const { createNewUser,setUser } = useContext(AuthContext);
+  const { createNewUser,setUser,updateUserProfile } = useContext(AuthContext);
+  const [error,setError] = useState({});
+  const navigate = useNavigate();
   
   const handleRegister = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
     const name = form.get("name");
+    {
+      if (name.length<5){
+        setError({ ...error, name: "Name must be at least 5 characters long" });
+        return;
+      }
+    }
     const email = form.get("email");
     const password = form.get("password");
     const photoUrl = form.get("photoUrl");
-    console.log(name, email, password, photoUrl);
+    {
+      if (!photoUrl){
+        setError({ ...error, name: "Photo URL is required" });
+        return;
+      }
+    }
+    
 
     createNewUser(email, password)
       .then((result) => {
         const user = result.user;
         setUser(user);
+        updateUserProfile({ displayName: name, photoURL: photoUrl })
+        .then(()=>{
+          console.log("User profile updated successfully");
+          navigate("/");
+        })
+        .catch((err)=>{
+          console.log("Error updating user profile:", err.message);
+        })
         console.log(user);
       })
       .catch((error) => {
@@ -79,6 +101,11 @@ const Register = () => {
               required
             />
           </div>
+          <label className="label">
+              {
+                error.name && <span className="label-text-alt text-red-600">{error.name}</span>
+              }
+            </label>
           <div className="form-control mt-6">
             <button className="btn btn-neutral w-full">Register</button>
             <p className="text-center p-2">

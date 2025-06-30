@@ -8,7 +8,7 @@ const NavBar = () => {
     const {user,logOut} = useContext(AuthContext);
     return (
         <div className="flex flex-col md:flex-row justify-between items-center pt-5">
-            <div>{user&& user.email}</div>
+            <div></div>
             <div className="space-x-4 text-[#706F6F]">
                 <Link to="/">Home</Link>
                 <Link to="/about">About</Link>
@@ -16,7 +16,13 @@ const NavBar = () => {
             </div>
             <div>
                 <div className="flex  justify-center items-center space-x-2">
-                    <img src={userProfile} alt="" srcset="" />
+                    {
+                        user && user?.email ? <div>
+                            <img src={user?.photoURL} className="w-10 h-10 rounded-full " alt="" srcset="" />
+                            <p className="text-[#706F6F]">{user?.displayName}</p>
+                        </div>:<img src={userProfile} alt="" srcset="" />
+                    }
+                    
                     {
                         user && user.email ?
                         <button className="bg-[#403F3F] text-white p-2 rounded-lg" onClick={logOut}>LogOut</button>
